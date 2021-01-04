@@ -1,0 +1,85 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+  generation: 2
+  labels:
+    run: bcce-is
+  name: bcce-is
+  namespace: _NAMESPACE_
+spec:
+  replicas: _REPLICAS_
+  selector:
+    matchLabels:
+      run: bcce-is
+  template:
+    metadata:
+      labels:
+        run: bcce-is
+    spec:
+      containers:
+      - env:
+        - name: gatewayProperties.server.bc.repo.db.driver
+          value: _DATABASE_DRIVER_
+        - name: gatewayProperties.server.bc.repo.db.url
+          value: _DATABASE_URL_
+        - name: gatewayProperties.server.bc.repo.db.user
+          value: _DATABASE_USERNAME_
+        - name: gatewayProperties.server.bc.repo.db.password
+          value: _DATABASE_PASSWORD_
+        - name: gatewayProperties.server.prefix
+          value: _BCCE_INSTALLATION_PREFIX_ 
+        - name: gatewayProperties.server.installationName
+          value: _BCCE_INSTALLATION_NAME_
+        - name: hibernate.connection.driver_class
+          value: _DATABASE_DRIVER_
+        - name: hibernate.connection.url
+          value: _DATABASE_URL_
+        - name: hibernate.connection.username
+          value: _DATABASE_USERNAME_
+        - name: hibernate.connection.password
+          value: _DATABASE_PASSWORD_
+        - name: log4j2.configurationFile
+          value: /usr/bcce-is/secrets/log4j2.xml
+        - name: bc.tas.auditLog.enable
+          value: "true"
+        - name: bc.tas.NRLog.enable
+          value: "false"
+        - name: tasProperties.server.baseURL
+          value: http://_K8S_HOST_:_AUDITSAFE_DS_PORT_/tas/dataserver
+        - name: pod.ip
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: _DOCKER_REPOSITORY_/bcce-is:_BUILD_NUM_
+        imagePullPolicy: Always
+        name: bcce-is
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources:
+          requests:
+            memory: 1024Mi
+        volumeMounts:
+        - name: bcce-secrets
+          mountPath: /usr/bcce-is/secrets
+        - name: mount-volume
+          mountPath: _MOUNT_PATH_
+      imagePullSecrets:
+        - name: _IMAGE_PULL_SECRETS_
+      volumes:
+      - name: bcce-secrets
+        secret:
+          secretName: bcce-log4j2
+      - name: mount-volume
+        hostPath:
+          path: _MOUNT_PATH_
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}

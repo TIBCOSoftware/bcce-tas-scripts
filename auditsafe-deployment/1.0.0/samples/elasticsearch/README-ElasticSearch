@@ -1,0 +1,90 @@
+
+Install ElasticSearch
+========================================================================================================================================================
+Non-secure Cluster.
+
+     1. Download ElasticSearch 7.6+ from https://www.elastic.co/downloads/past-releases/elasticsearch-7-6-0
+
+     2. Extract the zip file and go to config/ folder
+     
+     3. Open elasticsearch.yml file and edit network.host to your ip.
+	network.host: 10.97.24.124
+
+     4. You may config network.port if you can't use default 9200 port.
+
+     5. Uncomment discovery.seeder_hosts and set your seed hosts such as discovery.seed_hosts: ["<ip_address>","[::1]"]
+
+     6. You also can config any settings in the yml file if it is required(like number of replicas etc..)
+
+     7. cd back to bin folder and just run ./elasticsearch 
+
+
+========================================================================================================================================================
+Secured cluster:
+
+     You'll have to enable X-pack and enable security functions in elasticsearch.yml file.
+
+     1. In order to enable security it is necessary to have either a Gold or Platinum subscription, or a trial license enabled via Kibana or API. For 
+example, the following command would enable a trial license via the API:
+
+ curl -X POST "localhost:9200/_xpack/license/start_trial?acknowledge=true"
+         Where localhost must be replaced with the name of a node in our Elasticsearch cluster.
+
+     2. After enabling a license, security can be enabled. We must modify the elasticsearch.yml file on each node in the cluster with the following line:
+        xpack.security.enabled: true
+
+     3. Create certs file
+        bin/elasticsearch-certutil ca ENTER ENTER
+        bin/elasticsearch-certutil cert --ca elastic-stack-ca.p12 ENTER ENTER ENTER
+
+     4. The newly created certificates should be copied into a sub-directory called certs located within the config directory. The certificates will 
+then be specified in the elasticsearch.yml file as follows:
+
+        xpack.security.transport.ssl.enabled: true 
+        xpack.security.transport.ssl.verification_mode: certificate 
+        xpack.security.transport.ssl.keystore.path: certs/elastic-certificates.p12 
+        xpack.security.transport.ssl.truststore.path: certs/elastic-certificates.p12
+     5. Built-in users passwords can be setup with the following command:
+
+        bin/elasticsearch-setup-passwords interactive
+        Currently I gave elastic for all password. this will be used when you login host:9200 url.
+
+     6. Http/ssl encryption (in elasticsearch.yml)
+
+        xpack.security.http.ssl.enabled: true
+        xpack.security.http.ssl.keystore.path: certs/elastic-certificates.p12
+        xpack.security.http.ssl.truststore.path: certs/elastic-certificates.p12
+        xpack.security.http.ssl.client_authentication: optional
+
+     7. Enable PKI authentication 
+         xpack.security.authc.realms.pki1.type: pki
+
+     8. As a whole, a final configuration that needs to be added in elasticsearch.yml file will be like below:
+
+         xpack.security.enabled: true
+         xpack.security.transport.ssl.enabled: true
+         xpack.security.transport.ssl.verification_mode: certificate
+         xpack.security.transport.ssl.keystore.path: certs/elastic-certificates.p12
+         xpack.security.transport.ssl.truststore.path: certs/elastic-certificates.p12
+
+         xpack.security.http.ssl.enabled: true
+         xpack.security.http.ssl.keystore.path: certs/elastic-certificates.p12
+         xpack.security.http.ssl.truststore.path: certs/elastic-certificates.p12
+         xpack.security.http.ssl.client_authentication: optional
+         xpack.security.authc.realms.pki1.type: pki
+
+     9. restart elastic search from bin(./elasticsearch)
+
+
+ElasticSearch commands:
+========================================================================================================
+Pre-requist:
+1. In order to run ElasticSearch snapshot and restore, you need add below property
+   path.repo: ["<PATH_TO_WHERE_YOU_WANT_SAVE_BACKUP>"]
+   in your elasticsearch.yml(<ElasticSearch_HOME>/config) and restart elasticsearch
+2. Open elasticsearchtool and set BACKUP_LOCATION, ELASTICSEARCH_HOST, ELASTICSEARCH_PORT and BACKUP_REPO_NAME(if you want to change)
+Steps:
+1. ./elasticsearchtool -p (create backup repo, you only need create repository once)
+2. ./elasticsearchtool -s snapshot_1 (create snapshot_1, you can create multiple snapshots)
+3. ./elasticsearchtool -r snapshot_1 (restore snapshot_1)
+4. ./elasticsearchtool -d tcta_transaction_bcce (delete index)

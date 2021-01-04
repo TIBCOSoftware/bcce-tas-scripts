@@ -1,0 +1,119 @@
+
+Prerequisites:
+========================================================================================================
+1. TIBCO Enterprise Message Service™ (EMS): Install and configure EMS for TIBCO BusinessConnect™ 
+   Container Edition (BCCE). The URL for the following properties in the factories.conf file must be 
+   updated to the EMS machine IP:
+   ( ConnectionFactory, GenericConnectionFactory, TopicConnectionFactory, QueueConnectionFactory )
+     *** localhost and local hostname won't work.
+2. MySQL: Install MySQL database and provide the login credentials first.
+   ( (1) Set access permission:
+     GRANT ALL PRIVILEGES ON *.* TO ‘root’@‘%’ IDENTIFIED BY ‘root’;
+     FLUSH PRIVILEGES;
+     (2) Disable Strict SQL Mode in MySQL 5.7:
+     Set sql_mode=NO_ENGINE_SUBSTITUTION;
+     Set global sql_mode=NO_ENGINE_SUBSTITUTION;
+     (3) Disable ssl:
+      Edit the config file: /path/to/file/my.cnf
+        [mysqld]
+        ...
+        skip_ssl
+      and then restart mysql
+     (4) Set mysql max db connection to 2000:
+     set GLOBAL max_connections = 2000;
+     (5) Set mysql max db connection errors to 2000:
+     Set GLOBAL max_connect_errors = 2000;
+     (6) Set lower case table names:
+     Set lower_case_table_names=1; )
+3. Docker: Install Docker for the Docker images.
+4. kubectl: Install kubectl for the deployment on the Kubernetes cluster.
+5. Kubernetes cluster: Install Kubernetes cluster for deploying and running the BCCE services.
+6. TIBCO® AuditSafe: Required to be deployed and running to post the audit logs from BCCE.
+7. Mount NFS folder: Required for Poller Server where Kubernetes can use the same network folder
+   to access files for polling.
+
+========================================================================================================
+
+Deploying steps:
+========================================================================================================
+1. Configure and update all the property values in the deployment.properties and the values <xxxxx>
+   MUST be replaced.
+2. Use the script deploy-bcce.sh to deploy the BCCE services onto the Kubernetes cluster.
+   a. Deploy the Admin Server and CMS Server first and then navigate to http://master-node-ip:30000 to
+      log in with username(admin) and password(Password) as credentials.
+      (1) Set JNDI Context URLs of Private Process JMS and intercomponent JMS properly for Interior
+          Server (IS) to use.
+      (2) Add the http under Gateway.
+   b. Deploy the IS and Poller Server (PS).
+   c. Go to the http://master-node-ip:30000/systemsettings/general URL to export the Gateway Server (GS) 
+      configuration to get GSToken.zip file that includes the intercomProps, hostKey and peerCert files
+      that are needed by the Gateway Server deployment.
+   d. Deploy the GS at last since it needs the hostKey, peerCert and intercomProps to be generated.
+
+========================================================================================================
+
+Undeploying steps:
+========================================================================================================
+1. Run the script remove_bcce_services.sh to remove all the BCCE services/deployments.
+2. Log in to MySQL to delete the database <dbname> which is set in your deployment.properties.
+
+========================================================================================================
+
+
+List of files
+========================================================================================================
+scripts:
+deploy-bcce.sh
+
+apply_secret_cert.sh
+apply_secret_log4j2.sh
+apply_secret_docker_login.sh
+remove_bcce_services.sh
+
+config:
+deployment.properties
+log4j2.xml
+
+========================================================================================================
+
+Files
+========================================================================================================
+deploy_bcce.sh:
+    It deploys the BCCE services onto the Kubernetes cluster.
+
+deployment.properties:
+     It contains all the properties that the user must set before pulling the BCCE's Docker images and
+deploying them to the Kubernetes cluster.
+
+log4j2.xml:
+     It is the default xml file for creating the Kubernetes log4j2 secret.
+
+apply_secret_log4j2.sh:
+     It creates the Kubernetes secret log4j2 with the log4j2.xml. 
+
+apply_secret_cert.sh:
+     It creates the Kubernetes secret bcce-gs-config for two key/cert files.
+
+apply_secret_docker_login.sh:
+     It creates the Kubernetes secret Docker-registry for Docker login.
+
+remove_bcce_services.sh:
+     It deletes all the BCCE services and deployments.
+
+========================================================================================================
+
+kubectl commands:
+========================================================================================================
+1. sudo kubectl get nodes (Gets all the machine nodes)
+2. sudo kubectl get secrets --all-namespaces
+3. sudo kubectl get pods --all-namespaces (Gets all the pods for all the namespaces)
+4. sudo kubectl get pods (Gets all the pods for the default namespace)
+5. sudo kubectl get services --all-namespaces (Gets all the services for all the namespaces)
+6. sudo kubectl get deployments --all-namespaces (Gets all the deployments for all the namespaces)
+7. sudo kubectl delete pod|service|deployment pod-id|service-name|deployment-name (Deletes the object) 
+     *** The service-name and deployment-name are bcce-as, bcce-cms, bcce-is, bcce-ps, and bcce-gs.
+8. sudo kubectl logs pod-id -c service-name --follow (Gets the log of the pod)
+9. sudo kubectl exec -it pod-id bash (Gets into the environment of the pod)
+
+========================================================================================================
+

@@ -1,0 +1,83 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+  generation: 2
+  labels:
+    run: auditsafe-ws
+  name: auditsafe-ws
+  namespace: _NAMESPACE_
+spec:
+  replicas: _REPLICAS_
+  selector:
+    matchLabels:
+      run: auditsafe-ws
+  template:
+    metadata:
+      labels:
+        run: auditsafe-ws
+    spec:
+      containers:
+      - env:
+        - name: spring_profiles_active
+          value: docker
+        - name: database_url
+          value: _DATABASE_URL_
+        - name: database_driver
+          value: _DATABASE_DRIVER_
+        - name: database_username
+          value: _DATABASE_USERNAME_
+        - name: database_password
+          value: _DATABASE_PASSWORD_
+        - name: elasticsearch_type
+          value: _ELASTICSEARCH_TYPE_
+        - name: elasticsearch_schema
+          value: _ELASTICSEARCH_SCHEMA_
+        - name: elasticsearch_host
+          value: _ELASTICSEARCH_HOST_
+        - name: elasticsearch_port
+          value: _ELASTICSEARCH_PORT_
+        - name: elasticsearch_username
+          value: _ELASTICSEARCH_USERNAME_
+        - name: elasticsearch_password
+          value: _ELASTICSEARCH_PASSWORD_
+        - name: elasticsearch_keystore_password
+          value: _ELASTICSEARCH_KEYSTORE_PASSWORD_
+        - name: log4j2.configurationFile
+          value: /usr/auditsafe-ws/secrets/log4j2.xml
+        - name: truststore.jksFile
+          value: /usr/auditsafe-ws/certs/truststore.jks
+        image: _DOCKER_REPOSITORY_/auditsafe-ws:_BUILD_NUM_
+        imagePullPolicy: Always
+        name: auditsafe-ws
+        ports:
+        - containerPort: 7070
+          protocol: TCP
+        resources:
+          limits:
+            memory: 1024Mi
+          requests:
+            memory: 512Mi
+        volumeMounts:
+        - name: auditsafe-secrets
+          mountPath: /usr/auditsafe-ws/secrets
+        - name: auditsafe-truststore
+          mountPath: /usr/auditsafe-ws/certs
+      imagePullSecrets:
+        - name: _IMAGE_PULL_SECRETS_
+      volumes:
+      - name: auditsafe-secrets
+        secret:
+          secretName: auditsafe-log4j2
+      - name: auditsafe-truststore
+        secret:
+          secretName: auditsafe-truststore
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}

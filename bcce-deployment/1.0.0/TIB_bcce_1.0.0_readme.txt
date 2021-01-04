@@ -1,0 +1,108 @@
+======================================================================
+Product Name	 : TIBCO BusinessConnect(TM) Container Edition
+Release Version	 : 1.0.0
+Release Date	 : May 2020
+
+======================================================================
+Introduction 
+
+TIBCO BusinessConnect Container Edition is the containerized
+edition of TIBCO BusinessConnect, TIBCO's leading enterprise
+B2B gateway. TIBCO BusinessConnect enables an enterprise
+organization to host a trading community and facilitate the
+secure exchange of industry-standard business documents with
+their suppliers and customers, thereby automating cross-company
+processes. 
+
+TIBCO BusinessConnect Container Edition's components have been
+modularized so that they can be launched independently in
+containers to any public cloud using Kubernetes-based
+orchestration platforms.
+The GUI has been updated to ease trading partner onboarding and
+refresh user experience.
+
+======================================================================
+Supported Platforms
+
+   CentOS
+      7.7 64-bit on x86-64
+   Ubuntu Server
+      18.04 64-bit on x86-64
+
+Additional Information 
+
+   This release was certified with Docker 19.03+ and Kubernetes 1.15+
+
+======================================================================
+Supported Third-party Software
+
+   Database
+     MySQL 5.7.x (5.7.x - com.mysql.jdbc.Driver)
+
+   Web Browser
+     Google Chrome 81.0.x
+     Mozilla Firefox 75.0.x
+
+Additional Information 
+
+   Development Tool
+    Sun Java Runtime Environment 1.8.x
+     JRE 1.8.0_221 (required) is packaged with TIBCO
+
+======================================================================
+Minimum Hardware Requirements
+
+   Disk Space:  10 GB
+
+   Memory:     8 GB
+
+======================================================================
+Minimum Software Requirements
+
+   TIBCO Software:
+     TIBCO Enterprise Message Service(TM) 8.4.0
+     TIBCO(R) AuditSafe 1.0.0
+
+======================================================================
+TIBCO Product Compatibilities
+
+   TIBCO Enterprise Message Service(TM) 8.4.0 - 8.5.x
+   TIBCO(R) AuditSafe 1.0.0 - 1.0.x
+
+======================================================================
+Encoding Support
+
+   UTF-8
+
+======================================================================
+Documentation
+
+Documentation for this and other TIBCO products is available on
+the TIBCO Documentation site. This site is updated more
+frequently than any documentation that might be included with
+the product. To ensure that you are accessing the latest
+available help topics, visit: https://docs.tibco.com.
+
+======================================================================
+TIBCO Product Support
+
+You can contact TIBCO Support in the following ways:
+
+  For an overview of TIBCO Support, visit
+  http://www.tibco.com/services/support.
+
+  For accessing the Support Knowledge Base and getting
+  personalized content about products you are interested in,
+  visit the TIBCO Support portal at https://support.tibco.com.
+
+  For creating a Support case, you must have a valid
+  maintenance or support contract with TIBCO. You also need a
+  user name and password to log in to https://support.tibco.com.
+  If you do not have a user name, you can request one by clicking
+  Register on the website.
+
+======================================================================
+Copyright (c) 2020. TIBCO Software Inc. All Rights Reserved.
+
+
+

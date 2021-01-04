@@ -1,0 +1,75 @@
+
+Prerequisites:
+========================================================================================================
+1. ElasticSearch: Install ElasticSearch for storing BCCE logs.
+2. MySQL: Install MySQL database and provide its login credentials first.
+3. Docker: Install Docker for building the Docker images.
+4. kubectl: Install kubectl for the deployment on the Kubernetes cluster.
+5. Kubernetes cluster: Install Kubernetes cluster for deploying and running the AuditSafe services.
+
+========================================================================================================
+
+Deploying steps:
+========================================================================================================
+1. Configure and update the property values in the deployment.properties and the value <xxxxx>
+   MUST be replaced.
+3. Use the script deploy-auditsafe.sh to deploy the AuditSafe services onto the Kubernetes cluster.
+
+========================================================================================================
+
+Undeploying steps: 
+========================================================================================================
+1. Run the script remove_auditsafe_services.sh to remove all the AuditSafe services/deployments.
+2. Log in to MySQL to delete the database <dbname> which is set in your deployment.properties.
+
+========================================================================================================
+
+
+List of files
+========================================================================================================
+scripts:
+deploy-auditsafe.sh
+
+apply_secret_log4j2.sh
+apply_secret_truststore.sh
+apply_secret_docker_login.sh
+remove_auditsafe_services.sh
+
+config:
+deployment.properties
+log4j2.xml
+truststore.jks
+========================================================================================================
+
+Files
+========================================================================================================
+build-images.sh:
+    It creates the AuditSafe Docker images and push the images to the Docker repository.
+
+deploy-auditsafe.sh:
+    It deploys the AuditSafe services onto the Kubernetes cluster.
+
+deployment.properties:
+     It contains all the properties that you must set before building the BCCE's Docker images and
+deploying to the Kubernetes cluster.
+
+log4j2.xml:
+     It is the default xml file for creating the Kubernetes log4j2 secret.
+
+truststore.jks:
+     It is the empty file for creating the Kubernetes truststore secret. You can update this file and 
+     then run apply_secret_truststore.sh to update the secret.
+
+apply_secret_log4j2.sh:
+     It creates the Kubernetes secret log4j2 with the log4j2.xml. 
+
+apply_secret_truststore.sh:
+     It creates the Kubernetes secret truststore with the truststore.jks. 
+
+apply_secret_docker_login.sh:
+     It creates the Kubernetes secret Docker-registry for Docker login.
+
+remove_auditsafe_services.sh:
+     It deletes all the BCCE services and deployments.
+
+========================================================================================================
