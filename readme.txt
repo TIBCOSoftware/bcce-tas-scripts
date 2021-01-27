@@ -1,19 +1,28 @@
-﻿Copyright (c) 2020 TIBCO Software Inc. All Rights Reserved
+﻿Copyright (c) 2021 TIBCO Software Inc. All Rights Reserved
 
 
-+++++ About Deployment Scripts for TIBCO BusinessConnect Container Edition and TIBCO AuditSafe +++++
++++++ About "Deployment Scripts for TIBCO BusinessConnect Container Edition and TIBCO AuditSafe" +++++
 
 
-TIBCO BusinessConnect™ Container Edition (BCCE) is the containerized edition of TIBCO BusinessConnect. It allows enterprises to host a business-to-business trading community with their trading partners in the cloud of their choice.
-BCCE requires TIBCO® AuditSafe (AuditSafe) as a mandatory component. AuditSafe is a TIBCO product used to record the audit trail of business transactions from any applications. AuditSafe is shipped with BCCE.
-In order to process EDI documents, BCCE requires a separately licensed product, namely TIBCO BusinessConnect™ Container Edition - EDI Protocol (BCCE-EDI). BCCE-EDI contains a module called FSRest, which is the engine that performs the EDI document validation and translation services for BCCE.
+TIBCO BusinessConnect™ Container Edition (BusinessConnect™ CE) is the containerized edition of TIBCO BusinessConnect™. 
+It allows enterprises to host a business-to-business trading community with their trading partners in the 
+cloud of their choice. 
+
+AuditSafe is a TIBCO product used to record the audit trail of business transactions from any 
+applications. TIBCO® AuditSafe as a mandatory component and it is shipped with BusinessConnect CE.
+
+In order to process EDI documents, BusinessConnect CE requires a separately licensed product, namely 
+TIBCO BusinessConnect™ Container Edition - EDI Protocol (BusinessConnect CE-EDI). BusinessConnect CE-EDI contains a module called 
+FSRest, which is the engine that performs the EDI document validation and translation services for BusinessConnect CE.
 
 
-This read-me contains the instructions necessary to use the sample deployment scripts for launching the docker images of BCCE, AuditSafe, and FSRest, the validation engine of BCCE-EDI to your Kubernetes environments. 
+This read-me contains the instructions necessary to use the sample deployment scripts for launching 
+the docker images of BusinessConnect CE, TIBCO AuditSafe, and FSRest, to your Kubernetes environments. 
 
 
 Assumptions:
-- You have already generated the docker images of BCCE, AuditSafe (both are shipped with BCCE), and FSRest (shipped with BCCE-EDI Protocol).
+- You have already generated the Docker images of BusinessConnect CE, TIBCO AuditSafe (both are shipped with BusinessConnect CE), and 
+FSRest (shipped with BusinessConnect CE-EDI Protocol).
 - You have installed and configured the necessary Kubernetes clusters in your cloud of choice.
 
 
@@ -25,7 +34,7 @@ Assumptions:
 Prerequisites:
 ========================================================================================================
 1. TIBCO Enterprise Message Service™ (EMS): Install and configure EMS for TIBCO BusinessConnect™ 
-   Container Edition (BCCE). The URL for the following properties in the file 
+   Container Edition (BusinessConnect CE). The URL for the following properties in the file 
    TIBCO_HOME/ems/8.x/samples/config/factories.conf must be 
    updated to the EMS machine IP:
    ( ConnectionFactory, GenericConnectionFactory, TopicConnectionFactory, QueueConnectionFactory )
@@ -51,8 +60,8 @@ Prerequisites:
    (3) Note: Make sure mysql port(default 3306) of the mysql host machine is opened        
 3. Docker: Install Docker for the Docker images.
 4. kubectl: Install kubectl for the deployment on the Kubernetes cluster.
-5. Kubernetes cluster: Install Kubernetes cluster for deploying and running the BCCE services.
-6. TIBCO® AuditSafe: Required to be deployed and running to post the audit logs from BCCE.
+5. Kubernetes cluster: Install Kubernetes cluster for deploying and running the BusinessConnect CE services.
+6. TIBCO® AuditSafe: Required to be deployed and running to post the audit logs from BusinessConnect CE.
 7. Mount NFS folder: Required for Poller Server where Kubernetes can use the same network folder
    to access files for polling.
 
@@ -66,7 +75,7 @@ Deploying steps:
 ========================================================================================================
 1. Configure and update all the property values in the deployment.properties and the values <xxxxx>
    MUST be replaced.
-2. Use the script deploy-bcce.sh to deploy the BCCE services onto the Kubernetes cluster.
+2. Use the script deploy-bcce.sh to deploy the BusinessConnect CE services onto the Kubernetes cluster.
    a. Deploy the Auth Server, Admin Server and CMS Server first and then navigate to 
       http://master-node-ip:30000 to log in with username(admin) and password(Password) as credentials.
       (1) Set JNDI Context URLs of Private Process JMS and intercomponent JMS properly for Interior
@@ -87,7 +96,7 @@ Deploying steps:
 
 Undeploying steps:
 ========================================================================================================
-1. Run the script remove_bcce_services.sh to remove all the BCCE services/deployments.
+1. Run the script remove_bcce_services.sh to remove all the BusinessConnect CE services/deployments.
 2. Log in to MySQL to delete the database <dbname> which is set in your deployment.properties.
 
 
@@ -121,11 +130,11 @@ log4j2.json
 Files
 ========================================================================================================
 deploy_bcce.sh:
-    It deploys the BCCE services onto the Kubernetes cluster.
+    It deploys the BusinessConnect CE services onto the Kubernetes cluster.
 
 
 deployment.properties:
-     It contains all the properties that the user must set before pulling the BCCE's Docker images and
+     It contains all the properties that the user must set before pulling the BusinessConnect CE Docker images and
 deploying them to the Kubernetes cluster.
 
 
@@ -154,7 +163,7 @@ apply_secret_docker_login.sh:
 
 
 remove_bcce_services.sh:
-     It deletes all the BCCE services and deployments.
+     It deletes all the BusinessConnect CE services and deployments.
 
 
 ========================================================================================================
@@ -188,11 +197,11 @@ kubectl commands:
 
 Prerequisites:
 ========================================================================================================
-1. ElasticSearch: Install ElasticSearch for storing BCCE logs.
+1. ElasticSearch: Install ElasticSearch for storing BusinessConnect CE logs.
 2. MySQL: Install MySQL database and provide its login credentials first.
 3. Docker: Install Docker for building the Docker images.
 4. kubectl: Install kubectl for the deployment on the Kubernetes cluster.
-5. Kubernetes cluster: Install Kubernetes cluster for deploying and running the AuditSafe services.
+5. Kubernetes cluster: Install Kubernetes cluster for deploying and running the TIBCO AuditSafe services.
 
 
 ========================================================================================================
@@ -202,7 +211,7 @@ Deploying steps:
 ========================================================================================================
 1. Configure and update the property values in the deployment.properties and the value <xxxxx>
    MUST be replaced.
-3. Use the script deploy-auditsafe.sh to deploy the AuditSafe services onto the Kubernetes cluster.
+3. Use the script deploy-auditsafe.sh to deploy the TIBCO AuditSafe services onto the Kubernetes cluster.
 
 
 ========================================================================================================
@@ -210,7 +219,7 @@ Deploying steps:
 
 Undeploying steps: 
 ========================================================================================================
-1. Run the script remove_auditsafe_services.sh to remove all the AuditSafe services/deployments.
+1. Run the script remove_auditsafe_services.sh to remove all the TIBCO AuditSafe services/deployments.
 2. Log in to MySQL to delete the database <dbname> which is set in your deployment.properties.
 
 
@@ -241,15 +250,15 @@ truststore.jks
 Files
 ========================================================================================================
 build-images.sh:
-    It creates the AuditSafe Docker images and push the images to the Docker repository.
+    It creates the TIBCO AuditSafe Docker images and push the images to the Docker repository.
 
 
 deploy-auditsafe.sh:
-    It deploys the AuditSafe services onto the Kubernetes cluster.
+    It deploys the TIBCO AuditSafe services onto the Kubernetes cluster.
 
 
 deployment.properties:
-     It contains all the properties that you must set before building the BCCE's Docker images and
+     It contains all the properties that you must set before building the BusinessConnect CE Docker images and
 deploying to the Kubernetes cluster.
 
 
@@ -275,7 +284,7 @@ apply_secret_docker_login.sh:
 
 
 remove_auditsafe_services.sh:
-     It deletes all the BCCE services and deployments.
+     It deletes all the BusinessConnect CE services and deployments.
 
 
 ========================================================================================================
@@ -283,15 +292,15 @@ remove_auditsafe_services.sh:
 
 
 
-+++++ Instructions for FSRest, the EDI processing engine shipped with TIBCO BusinessConnect Container Edition - EDI Protocol +++++
++++++ Instructions for FSRest, the EDI processing engine shipped with BusinessConnect CE-EDI +++++
 
 
 
 
 Prerequisites:
 ========================================================================================================
-1. TIBCO® BCCE: Required to be deployed and running for FSRest to communicate.
-2. TIBCO® AuditSafe: Required to be deployed and running to post the audit logs from FSRest.
+1. TIBCO BusinessConnect Container Edition: Required to be deployed and running for FSRest to communicate.
+2. TIBCO AuditSafe: Required to be deployed and running to post the audit logs from FSRest.
 
 
 ========================================================================================================
