@@ -1,0 +1,64 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+  generation: 2
+  labels:
+    run: bcce-aus
+  name: bcce-aus
+  namespace: _NAMESPACE_
+spec:
+  replicas: _REPLICAS_
+  selector:
+    matchLabels:
+      run: bcce-aus
+  template:
+    metadata:
+      labels:
+        run: bcce-aus
+    spec:
+      containers:
+      - env:
+        - name: aus.datasource.url
+          value: _DATABASE_URL_
+        - name: aus.datasource.driver
+          value: _DATABASE_DRIVER_
+        - name: aus.datasource.username
+          value: _DATABASE_USERNAME_
+        - name: aus.datasource.password
+          value: _DATABASE_PASSWORD_
+        - name: aus.server.port
+          value: "5050"
+        - name: aus.show.sql
+          value: "_AUS_SHOW_SQL_"
+        - name: aus.hikari.poolSize
+          value: "_AUS_HIKARI_POOL_SIZE_"
+        - name: aus.swagger.flag
+          value: "_AUS_SWAGGER_ENABLED_"
+        - name: log4j2.configurationFile
+          value: /usr/bcce-aus/secrets/log4j2.xml
+        image: _DOCKER_REPOSITORY_/bcce-aus:_BUILD_NUM_
+        imagePullPolicy: Always
+        name: bcce-aus
+        ports:
+        - containerPort: 6070
+          protocol: TCP
+        resources: {}
+        volumeMounts:
+        - name: bcce-secrets
+          mountPath: /usr/bcce-aus/secrets
+      imagePullSecrets:
+        - name: _IMAGE_PULL_SECRETS_
+      volumes:
+      - name: bcce-secrets
+        secret:
+          secretName: common-log4j2
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}

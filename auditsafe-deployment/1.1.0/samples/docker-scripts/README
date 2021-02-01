@@ -1,0 +1,46 @@
+Prerequisites:
+===================================================================================================================
+1. ElasticSearch: Install ElasticSearch for storing BCCE logs.
+2. MySQL: Install MySQL database and provide the login credentials first.
+3. Docker: Install Docker for building the Docker images.
+===================================================================================================================
+
+
+Steps:
+===================================================================================================================
+1. First, modify and check the properties in the ../../config/deployment.properties
+2. Run the script docker-run-auditsafe-all.sh. It will perform the following tasks:
+   a. Call the script setenv.sh (source ./setenv.sh) to generate docker.env file based on docker.env.template and 
+      deployment.properties.
+   b. Call the scripts docker-run-bcce-aus.sh, docker-run-auditsafe-ds.sh and docker-run-auditsafe-ds.sh.
+
+*** Each docker-run-*.sh can be run separately for each server after running 'source ./setenv.sh'.
+*** The script stop_auditsafe_containers.sh will stop all the AuditSafe Docker containers.
+
+===================================================================================================================
+
+List of files
+===================================================================================================================
+docker-run-auditsafe-all.sh
+
+setenv.sh
+docker.env.template
+
+docker-run-auditsafe-ds.sh
+docker-run-bcce-aus.sh
+docker-run-auditsafe-ws.sh
+
+stop_auditsafe_containers.sh
+
+===================================================================================================================
+
+
+
+Docker commands:
+========================================================================================================
+1. docker container ls -a (Gets all the Docker containers.)
+2. docker container rm -f container-id (Deletes the Docker container completely.) 
+3. docker logs container-id --follow (Gets the log of the Docker container.)
+
+========================================================================================================
+

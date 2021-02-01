@@ -1,0 +1,107 @@
+======================================================================
+Product Name	 : TIBCO(R) AuditSafe
+Release Version	 : 1.1.0
+Release Date	 : February 2021
+
+======================================================================
+Introduction 
+
+TIBCO AuditSafe is a cloud-native TIBCO product that can be
+used to store the immutable audit trail of business
+transactions from any applications, posted via the TIBCO
+BusinessWorks Plug-in for TIBCO AuditSafe or its REST API.
+Whether used standalone or as a bundled component of TIBCO
+BusinessConnect Container Edition (BCCE), it provides
+searchable and chronological transaction lifecycle visibility.
+TIBCO AuditSafe helps protect the integrity of business
+relationships and ensure operational efficiency.
+
+======================================================================
+Supported Platforms
+
+   CentOS
+      7.7 64-bit on x86-64
+   Ubuntu Server
+      18.04 64-bit on x86-64
+
+Additional Information 
+
+   TIBCO AuditSafe is designed to run as Docker containers on a
+   Kubernetes-based orchestration platform. This particular release
+   has been certified with Docker 19.03+ and Kubernetes 1.15+
+
+======================================================================
+Supported Third-party Software
+
+   Container Orchestration
+     Kubernetes 1.15
+
+   Web Browser
+     Google Chrome 81.0.x
+     Mozilla Firefox 75.0.x
+
+Additional Information 
+
+   Development Tool
+    Sun Java Runtime Environment 1.8.x
+     JRE 1.8.0_221 (required) is packaged with TIBCO
+
+======================================================================
+Minimum Hardware Requirements
+
+   Disk Space: 10 GB
+
+   Memory:     8 GB
+
+======================================================================
+Minimum Software Requirements
+
+   Third-party Software:
+     Elasticsearch 7.6.0
+     MySQL 5.7.x
+
+======================================================================
+TIBCO Product Compatibilities
+
+   Deployment Scripts for TIBCO BusinessConnect(TM) Container
+   Edition and TIBCO(R) AuditSafe 1.0.0 and above
+   TIBCO ActiveMatrix BusinessWorks(TM) Plug-in for TIBCO AuditSafe
+   6.3.0 and above
+
+======================================================================
+Encoding Support
+
+   UTF-8
+
+======================================================================
+Documentation
+
+Documentation for this and other TIBCO products is available on
+the TIBCO Documentation site. This site is updated more
+frequently than any documentation that might be included with
+the product. To ensure that you are accessing the latest
+available help topics, visit: https://docs.tibco.com.
+
+======================================================================
+TIBCO Product Support
+
+You can contact TIBCO Support in the following ways:
+
+  For an overview of TIBCO Support, visit
+  http://www.tibco.com/services/support.
+
+  For accessing the Support Knowledge Base and getting
+  personalized content about products you are interested in,
+  visit the TIBCO Support portal at https://support.tibco.com.
+
+  For creating a Support case, you must have a valid
+  maintenance or support contract with TIBCO. You also need a
+  user name and password to log in to https://support.tibco.com.
+  If you do not have a user name, you can request one by clicking
+  Register on the website.
+
+======================================================================
+Copyright (c) 2021. TIBCO Software Inc. All Rights Reserved.
+
+
+
