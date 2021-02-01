@@ -1,4 +1,4 @@
-﻿Copyright (c) 2021 TIBCO Software Inc. All Rights Reserved
+Copyright (c) 2021 TIBCO Software Inc. All Rights Reserved
 
 
 +++++ About "Deployment Scripts for TIBCO BusinessConnect Container Edition and TIBCO AuditSafe" +++++
