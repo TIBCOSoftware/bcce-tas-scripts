@@ -1,0 +1,34 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: bcce-gs
+  name: bcce-gs
+  namespace: _NAMESPACE_
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-security-groups: _SECURITY_GROUP_ID_
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+  - name: port1
+    port: _GS_PORT_
+    protocol: TCP
+    targetPort: 6700
+  - name: port2
+    port: _GS_SECURE_PORT_
+    protocol: TCP
+    targetPort: 6705
+  - name: port3
+    port: _GS_SECURE_CA_PORT_
+    protocol: TCP
+    targetPort: 6707
+  selector:
+    run: bcce-gs
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer: {}

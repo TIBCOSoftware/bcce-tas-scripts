@@ -1,0 +1,129 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+  generation: 2
+  labels:
+    run: bcce-ps
+  name: bcce-ps
+  namespace: _NAMESPACE_
+spec:
+  replicas: _REPLICAS_
+  selector:
+    matchLabels:
+      run: bcce-ps
+  template:
+    metadata:
+      labels:
+        run: bcce-ps
+    spec:
+      containers:
+      - env:
+        - name: gatewayProperties.server.bc.repo.db.driver
+          value: _DATABASE_DRIVER_
+        - name: gatewayProperties.server.bc.repo.db.url
+          value: _DATABASE_URL_
+        - name: gatewayProperties.server.bc.repo.db.user
+          value: _DATABASE_USERNAME_
+        - name: gatewayProperties.server.bc.repo.db.password
+          value: _DATABASE_PASSWORD_
+        - name: gatewayProperties.server.prefix
+          value: _BCCE_INSTALLATION_PREFIX_
+        - name: gatewayProperties.server.installationName
+          value: _BCCE_INSTALLATION_NAME_
+        - name: hibernate.connection.driver_class
+          value: _DATABASE_DRIVER_
+        - name: hibernate.connection.url
+          value: _DATABASE_URL_?sslMode=DISABLED
+        - name: hibernate.connection.username
+          value: _DATABASE_USERNAME_
+        - name: hibernate.connection.password
+          value: _DATABASE_PASSWORD_
+        - name: log4j2.configurationFile
+          value: /usr/bcce-ps/secrets/log4j2.xml
+        - name: bcce.poller.engines
+          value: "_BCCE_POLLER_ENGINES_"
+        - name: bcce.poller.ib.email.instances
+          value: "_BCCE_POLLER_IB_EMAIL_INSTANCES_"
+        - name: bcce.poller.ib.email.refresh.rate
+          value: "_BCCE_POLLER_IB_EMAIL_REFRESH_RATE_"
+        - name: bcce.poller.ib.email.weight
+          value: "_BCCE_POLLER_IB_EMAIL_WEIGHT_"
+        - name: bcce.poller.ib.file.instances
+          value: "_BCCE_POLLER_IB_FILE_INSTANCES_"
+        - name: bcce.poller.ib.file.refresh.rate
+          value: "_BCCE_POLLER_IB_FILE_REFRESH_RATE_"
+        - name: bcce.poller.ib.file.weight
+          value: "_BCCE_POLLER_IB_FILE_WEIGHT_"
+        - name: bcce.poller.ob.file.instances
+          value: "_BCCE_POLLER_OB_FILE_INSTANCES_"
+        - name: bcce.poller.ob.file.refresh.rate
+          value: "_BCCE_POLLER_OB_FILE_REFRESH_RATE_"
+        - name: bcce.poller.ob.file.weight
+          value: "_BCCE_POLLER_OB_FILE_WEIGHT_"
+        - name: bcce.poller.ib.ftp.instances
+          value: "_BCCE_POLLER_IB_FTP_INSTANCES_"
+        - name: bcce.poller.ib.ftp.refresh.rate
+          value: "_BCCE_POLLER_IB_FTP_REFRESH_RATE_"
+        - name: bcce.poller.ib.ftp.weight
+          value: "_BCCE_POLLER_IB_FTP_WEIGHT_"
+        - name: bcce.poller.internal.mdn.instances
+          value: "_BCCE_POLLER_INTERNAL_MDN_INSTANCES_"
+        - name: bcce.poller.internal.mdn.refresh.rate
+          value: "_BCCE_POLLER_INTERNAL_MDN_REFRESH_RATE_"
+        - name: bcce.poller.internal.mdn.weight
+          value: "_BCCE_POLLER_INTERNAL_MDN_WEIGHT_"
+        - name: bcce.poller.internal.schd.instances
+          value: "_BCCE_POLLER_INTERNAL_SCHD_INSTANCES_"
+        - name: bcce.poller.internal.schd.refresh.rate
+          value: "_BCCE_POLLER_INTERNAL_SCHD_REFRESH_RATE_"
+        - name: bcce.poller.internal.schd.weight
+          value: "_BCCE_POLLER_INTERNAL_SCHD_WEIGHT_"
+        - name: bcce.poller.internal.resend.instances
+          value: "_BCCE_POLLER_INTERNAL_RESEND_INSTANCES_"
+        - name: bcce.poller.internal.resend.refresh.rate
+          value: "_BCCE_POLLER_INTERNAL_RESEND_REFRESH_RATE_"
+        - name: bcce.poller.internal.resend.weight
+          value: "_BCCE_POLLER_INTERNAL_RESEND_WEIGHT_"
+        - name: bcce.poller.internal.hiber.instances
+          value: "_BCCE_POLLER_INTERNAL_HIBER_INSTANCES_"
+        - name: bcce.poller.internal.hiber.refresh.rate
+          value: "_BCCE_POLLER_INTERNAL_HIBER_REFRESH_RATE_"
+        - name: bcce.poller.internal.hiber.weight
+          value: "_BCCE_POLLER_INTERNAL_HIBER_WEIGHT_"
+        - name: bc.configstore.dbstore.cache.disable.for.qa.automation
+          value: "_CONFIGSTORE_QA_AUTOMATION_"
+        - name: tasProperties.server.baseURL
+          value: http://auditsafe-ds._NAMESPACE2_:_AUDITSAFE_DS_PORT_/tas/dataserver
+        image: _DOCKER_REPOSITORY_/bcce-ps:_BUILD_NUM_
+        imagePullPolicy: Always
+        name: bcce-ps
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
+        volumeMounts:
+        - name: bcce-secrets
+          mountPath: /usr/bcce-ps/secrets
+        - name: mount-volume
+          mountPath: _MOUNT_PATH_
+      terminationGracePeriodSeconds: 300
+      imagePullSecrets:
+        - name: _IMAGE_PULL_SECRETS_
+      volumes:
+      - name: bcce-secrets
+        secret:
+          secretName: common-log4j2
+      - name: mount-volume
+        nfs:
+          path: _MOUNT_PATH_
+          server: _EFS_SERVER_IP_
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}

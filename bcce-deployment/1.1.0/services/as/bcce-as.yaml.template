@@ -1,0 +1,56 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+  generation: 2
+  labels:
+    run: bcce-as
+  name: bcce-as
+  namespace: _NAMESPACE_
+spec:
+  replicas: _REPLICAS_
+  selector:
+    matchLabels:
+      run: bcce-as
+  template:
+    metadata:
+      labels:
+        run: bcce-as
+    spec:
+      containers:
+      - env:
+        - name: AS_HOST
+          value: bcce-as
+        - name: AS_PORT
+          value: "8280"
+        - name: AS_CMS_URL
+          value: http://bcce-cms:30001/cms/v1
+        - name: TAS_URL
+          value: http://_AUDITSAFE_WS_HOST_:_AUDITSAFE_WS_PORT_/tas
+        - name: log4j2_configurationFile
+          value: /usr/bcce-as/secrets/log4j2.json
+        image: _DOCKER_REPOSITORY_/bcce-as:_BUILD_NUM_
+        imagePullPolicy: Always
+        name: bcce-as
+        ports:
+        - containerPort: 8280
+          protocol: TCP
+        resources: {}
+        volumeMounts:
+        - name: bcce-secrets
+          mountPath: /usr/bcce-as/secrets
+      imagePullSecrets:
+        - name: _IMAGE_PULL_SECRETS_
+      volumes:
+      - name: bcce-secrets
+        secret:
+          secretName: common-log4j2-json
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}

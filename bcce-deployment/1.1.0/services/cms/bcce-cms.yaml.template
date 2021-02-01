@@ -1,0 +1,80 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+  generation: 2
+  labels:
+    run: bcce-cms
+  name: bcce-cms
+  namespace: _NAMESPACE_
+spec:
+  replicas: _REPLICAS_
+  selector:
+    matchLabels:
+      run: bcce-cms
+  template:
+    metadata:
+      labels:
+        run: bcce-cms
+    spec:
+      containers:
+      - env:
+        - name: ausProperties.server.baseURL
+          value: http://bcce-aus._NAMESPACE2_:_AUS_PORT_/aus/v1
+        - name: cms.datasource.url
+          value: _DATABASE_URL_
+        - name: cms.datasource.driver
+          value: _DATABASE_DRIVER_
+        - name: cms.datasource.username
+          value: _DATABASE_USERNAME_
+        - name: cms.datasource.password
+          value: _DATABASE_PASSWORD_
+        - name: cms.server.port
+          value: "6070"
+        - name: cms.show.sql
+          value: "_CMS_SHOW_SQL_"
+        - name: cms.hikari.poolSize
+          value: "_CMS_HIKARI_POOL_SIZE_"
+        - name: cms.swagger.flag
+          value: "_CMS_SWAGGER_ENABLED_"
+        - name: bcce.installation.prefix
+          value: _BCCE_INSTALLATION_PREFIX_
+        - name: bcce.installation.name
+          value: _BCCE_INSTALLATION_NAME_
+        - name: bcce.installation.overwrite
+          value: "false"
+        - name: bcce.edi.config.dir
+          value: /usr/bcce-cms/config
+        - name: bcce.plugins.home
+          value: /usr/bcce-cms/plugins
+        - name: bcce.intercomp.settings.export.dir
+          value: /usr/bcce-cms/ici
+        - name: bc.configstore.dbstore.cache.disable.for.qa.automation
+          value: "_CONFIGSTORE_QA_AUTOMATION_"
+        - name: log4j2.configurationFile
+          value: /usr/bcce-cms/secrets/log4j2.xml
+        image: _DOCKER_REPOSITORY_/bcce-cms:_BUILD_NUM_
+        imagePullPolicy: Always
+        name: bcce-cms
+        ports:
+        - containerPort: 6070
+          protocol: TCP
+        resources: {}
+        volumeMounts:
+        - name: bcce-secrets
+          mountPath: /usr/bcce-cms/secrets
+      imagePullSecrets:
+        - name: _IMAGE_PULL_SECRETS_
+      volumes:
+      - name: bcce-secrets
+        secret:
+          secretName: common-log4j2
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}

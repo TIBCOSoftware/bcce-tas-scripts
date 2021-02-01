@@ -1,0 +1,17 @@
+{
+    "appenders": {
+      "file": {
+        "type": "dateFile",
+        "filename": "logs/server.log",
+        "daysToKeep": 5,
+        "compress": false,
+        "pattern": "dd-MM-yyyy"
+      },
+      "console": {
+        "type": "console"
+      }
+    },
+    "categories": {
+      "default": { "appenders": [ "file", "console" ], "level": "info" }
+    }
+}

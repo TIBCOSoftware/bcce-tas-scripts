@@ -1,0 +1,78 @@
+
+Prerequisites:
+===================================================================================================================
+1. TIBCO Enterprise Message Service™ (EMS): Install and configure EMS for TIBCO BusinessConnect™ Container Edition (BCCE).
+   The URL for the following properties in the factories.conf file must be updated to the EMS machine IP:
+   ( ConnectionFactory, GenericConnectionFactory, TopicConnectionFactory, QueueConnectionFactory )
+     *** localhost and local hostname won't work
+2. MySQL: Install MySQL database and provide its login credentials first.
+   (1) Edit the config file: /path/to/file/my.cnf
+        [mysqld]
+        ...
+        #Set mysql max db connection to 2000
+        max_connections = 2000
+        #Set mysql max db connection errors to 2000
+        max_connect_errors = 2000
+        #Set default timezone
+        default-time-zone = '-05:00'
+      Restart mysql.
+   (2) Set access permission:
+        GRANT ALL PRIVILEGES ON *.* TO '<your_username>'@'%' IDENTIFIED BY '<your_password>';
+        FLUSH PRIVILEGES;
+   (3) Note: Make sure mysql port(default 3306) of the mysql host machine is opened
+3. Docker: Install Docker for building the Docker images.
+4. TIBCO® AuditSafe: Required to be deployed and running to post the audit logs from BCCE.
+
+===================================================================================================================
+
+
+Steps:
+===================================================================================================================
+1. First, modify and check the properties in the ../../config/deployment.properties.
+2. Run the script docker-run-bcce-all.sh. It automatically performs the following tasks:
+       a. Call the script setenv.sh to generate docker.env file based on docker.env.template and deployment.properties.
+       b. Call the script docker-run-bcce-*.sh for the servers one by one.
+3. Start the Auth Server, Admin Server and CMS Server Docker containers first and then go to 
+   http://<YourMachineIP>:<as_port> to log in with username(admin) and password(Password) as credentials.
+       a. Set JNDI Context URLs of Private Process JMS and intercomponent JMS properly for Interior Server (IS) to use.
+       b. Create a host under Hosts.
+       c. Add the http under Gateway.
+4. Run the IS and Poller Server (PS) Docker containers.
+5. Navigate to the http://<YourMachineIP>:<as_port>/systemsettings/general URL to export the Gateway Server (GS) 
+      configuraton to get GSToken.zip file that includes the intercomProps, hostKey and peerCert files that are 
+      needed by the Gateway Server deployment. Ensure that the properties for those files are set properly.
+6. Run the GS Docker container since it needs the hostKey, peerCert and intercomProps to be generated.
+
+*** Each docker-run-bcce-*.sh can be run separately for each server after running 'source ./setenv.sh'.
+*** The script stop_bcce_containers.sh will stop all the BCCE Docker containers.
+
+===================================================================================================================
+
+
+List of files
+===================================================================================================================
+docker-run-bcce-all.sh
+
+setenv.sh
+docker.env.template
+
+docker-run-bcce-aus.sh
+docker-run-bcce-as.sh
+docker-run-bcce-cms.sh
+docker-run-bcce-gs.sh
+docker-run-bcce-is.sh
+docker-run-bcce-ps.sh
+
+stop_bcce_containers.sh
+
+===================================================================================================================
+
+
+Docker commands:
+========================================================================================================
+1. docker container ls -a (Gets all the Docker containers.)
+2. docker container rm -f container-id (Deletes the Docker container completely.) 
+3. docker logs container-id --follow (Gets the log of the Docker container.)
+
+========================================================================================================
+
