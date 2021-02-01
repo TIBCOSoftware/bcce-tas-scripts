@@ -1,0 +1,47 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+  generation: 2
+  labels:
+    run: fsrest
+  name: fsrest
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: fsrest
+  template:
+    metadata:
+      labels:
+        run: fsrest
+    spec:
+      containers:
+      - env:
+        - name: FSREST_VALCALLBACKADDR
+          value: http://bcce-cms:30001/cms/v1/fsIntegration/operationInfo
+        - name: FSREST_TRANSCALLBACKADDR
+          value: http://bcce-cms:30001/cms/v1/fsIntegration/operationInfo
+        - name: FSREST_FILEREQUESTCALLBACKADDR
+          value: http://bcce-cms:30001/cms/v1/uploadfiles/download
+        - name: FSREST_MESSAGEPOSTADDR
+          value: http://auditsafe-ds.default:31001/tas/dataserver/intercom/post
+        image: 10.102.16.61:5000/fsrest:009
+        imagePullPolicy: Always
+        name: fsrest
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+      imagePullSecrets:
+        - name: docker-login
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}

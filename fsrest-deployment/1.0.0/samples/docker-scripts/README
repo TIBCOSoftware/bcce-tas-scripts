@@ -1,0 +1,40 @@
+
+Prerequisites:
+===================================================================================================================
+1. TIBCO® BCCE: Required to be deployed and running for FSRest to communicate.
+2. TIBCO® AuditSafe: Required to be deployed and running to post the audit logs from FSRest.
+
+===================================================================================================================
+
+
+Steps:
+===================================================================================================================
+1. First, modify and check the properties in the ../../config/deployment.properties.
+2. Run the script push-image.sh. It will push the image to the local docker registry.
+3. Run the script docker-run-fsrest.sh. It will call the script setenv.sh to generate docker.env file based on 
+   docker.env.template and deployment.properties.
+*** The script stop_fsrest_container.sh will stop the FSRest Docker container.
+
+===================================================================================================================
+
+
+List of files
+===================================================================================================================
+docker-run-fsrest.sh
+
+setenv.sh
+docker.env.template
+
+stop_fsrest_container.sh
+
+===================================================================================================================
+
+
+Docker commands:
+========================================================================================================
+1. docker container ls -a (Gets all the Docker containers.)
+2. docker container rm -f container-id (Deletes the Docker container completely.) 
+3. docker logs container-id --follow (Gets the log of the Docker container.)
+
+========================================================================================================
+

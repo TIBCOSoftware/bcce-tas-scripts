@@ -1,0 +1,55 @@
+
+Prerequisites:
+========================================================================================================
+1. TIBCO® BCCE: Required to be deployed and running for FSRest to communicate.
+2. TIBCO® AuditSafe: Required to be deployed and running to post the audit logs from FSRest.
+
+========================================================================================================
+
+
+Deploying steps:
+========================================================================================================
+1. Configure and update all the property values in the deployment.properties and the values <xxxxx>
+   MUST be replaced.
+2. Use the script deploy-fsrest.sh to deploy the FSRest service onto the Kubernetes cluster.
+
+========================================================================================================
+
+
+Undeploying steps:
+========================================================================================================
+1. Run the script remove_fsrest_service.sh to remove the FSRest service/deployment.
+
+========================================================================================================
+
+
+List of files
+========================================================================================================
+scripts:
+deploy-fsrest.sh
+
+apply_secret_docker_login.sh
+remove_fsrest_service.sh
+
+config:
+deployment.properties
+
+========================================================================================================
+
+Files
+========================================================================================================
+deploy_fsrest.sh:
+    It deploys the FSRest service onto the Kubernetes cluster.
+
+deployment.properties:
+     It contains all the properties that the user must set before pulling the FSRest's Docker image and
+deploying it to the Kubernetes cluster.
+
+apply_secret_docker_login.sh:
+     It creates the Kubernetes secret Docker-registry for Docker login.
+
+remove_fsrest_service.sh:
+     It deletes the FSRest service and deployment.
+
+========================================================================================================
+

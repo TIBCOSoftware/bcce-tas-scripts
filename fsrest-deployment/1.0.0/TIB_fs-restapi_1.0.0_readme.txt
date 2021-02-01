@@ -1,0 +1,75 @@
+======================================================================
+Product Name	 : TIBCO Foresight(R) REST API
+Release Version	 : 1.0.0
+Release Date	 : January 2021
+
+======================================================================
+Introduction 
+
+TIBCO Foresight(R) REST API is a web application designed to
+expose the Instream and Translator REST APIs, which can be used
+by any applications that require EDI/Flat File validation
+and/or EDI/Flat File/XML translation.
+
+======================================================================
+Supported Platforms
+
+   CentOS
+      7.7 64-bit on x86-64
+   Ubuntu Server
+      18.04 64-bit on x86-64
+
+======================================================================
+Minimum Hardware Requirements
+
+   Disk Space: 150 GB, although actual disk space
+               depends on the quantity of your EDI data
+
+   Memory:     4 GB RAM
+
+   CPU:        2.5 GHz processor or better
+
+======================================================================
+Minimum Software Requirements
+
+   Third-party Software:
+     Docker 19.03.x
+
+======================================================================
+TIBCO Product Compatibilities
+
+   TIBCO BusinessConnect(TM) Container Edition - EDI Protocol
+   powered by Instream(R) 1.0.0 - 1.0.x
+
+======================================================================
+Documentation
+
+Documentation for this and other TIBCO products is available on
+the TIBCO Documentation site. This site is updated more
+frequently than any documentation that might be included with
+the product. To ensure that you are accessing the latest
+available help topics, visit: https://docs.tibco.com.
+
+======================================================================
+TIBCO Product Support
+
+You can contact TIBCO Support in the following ways:
+
+  For an overview of TIBCO Support, visit
+  http://www.tibco.com/services/support.
+
+  For accessing the Support Knowledge Base and getting
+  personalized content about products you are interested in,
+  visit the TIBCO Support portal at https://support.tibco.com.
+
+  For creating a Support case, you must have a valid
+  maintenance or support contract with TIBCO. You also need a
+  user name and password to log in to https://support.tibco.com.
+  If you do not have a user name, you can request one by clicking
+  Register on the website.
+
+======================================================================
+Copyright (c) 2021. TIBCO Software Inc. All Rights Reserved.
+
+
+
