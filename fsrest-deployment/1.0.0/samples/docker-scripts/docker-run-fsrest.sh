@@ -10,7 +10,7 @@ FSREST_BUILD_NUM=009
 
 if [ ! -f license_accepted.txt ]; then
 	read -p "You must accept the License Agreement before proceeding. Press ENTER key to read the License. Press q to finish reading." yn
-	less ../../TIB_fsrest_1.0.0_license.txt
+	less ../../TIB_fs-restapi_1.0.0_license.txt
 
 	while true; do
 	    read -p "Do you accept the license? (y/n) " yn
